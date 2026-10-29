@@ -437,7 +437,10 @@ function pcAskButtonConfirmation(button){
 }
 document.addEventListener('click',function pcConfirmCapture(e){
  const button=e.target.closest?.('button');
- if(!button||button.closest('#pc-confirm-layer')||button.dataset.act==='awards-display-back')return;
+ if(!button||button.closest('#pc-confirm-layer'))return;
+ // Confirmation réservée aux changements de phase, à la cérémonie, à la déconnexion et aux retours.
+ const needsConfirmation=button.hasAttribute('data-phase')||['ceremony-open','logout','back','ceremony-back','awards-display-back'].includes(button.dataset.act);
+ if(!needsConfirmation)return;
  if(pcConfirmedClicks.has(button)){pcConfirmedClicks.delete(button);return}
  e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
  pcAskButtonConfirmation(button);
