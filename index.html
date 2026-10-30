@@ -320,6 +320,10 @@ button::placeholder,input::placeholder,textarea::placeholder{font-family:var(--a
 #auth .pc-auth-actions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:100%;margin-top:12px}
 #auth .pc-auth-actions button{box-sizing:border-box;width:100%!important;min-width:0!important;margin:0!important;padding:12px 5px!important;min-height:58px;font-size:clamp(12px,3.5vw,18px)!important;line-height:1.2;white-space:normal;overflow-wrap:normal;text-align:center}
 @media(max-width:360px){#auth .pc-auth-actions{gap:6px}#auth .pc-auth-actions button{font-size:12px!important;padding:10px 3px!important}}
+
+/* Correctif prioritaire : rangée connexion toujours horizontale */
+#root form#auth > .pc-auth-actions{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:stretch!important;gap:8px!important;width:100%!important;max-width:100%!important}
+#root form#auth > .pc-auth-actions > button{display:flex!important;flex:1 1 0!important;width:0!important;min-width:0!important;max-width:none!important;align-items:center!important;justify-content:center!important;white-space:normal!important;overflow-wrap:anywhere!important;text-align:center!important;margin:0!important;padding:10px 4px!important;font-size:clamp(11px,3.2vw,16px)!important;line-height:1.15!important}
 </style></head><body><div class="shell"><div class="top"><div class="brand"><div class="camera">📸</div><div class="logo">PHOTO CHALLENGE</div><div class="logo-sub">TV SHOW</div></div></div><div id="notice">Chargement…</div><div id="root"></div></div><script type="module">
 import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/+esm';
 const URL='https://sykfpdmhuxbwxohzyiee.supabase.co';
