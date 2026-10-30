@@ -311,6 +311,10 @@ body.pc-awards-mode .shell{max-width:none;padding:12px 20px}body.pc-awards-mode 
 :root{--arabic-font:"SC Dubai",system-ui,sans-serif}
 html,body,button,input,textarea,select,option,[lang="ar"],[dir="rtl"],[lang="ar"] *,[dir="rtl"] *{font-family:var(--arabic-font)!important}
 button::placeholder,input::placeholder,textarea::placeholder{font-family:var(--arabic-font)!important}
+
+/* Actions des parties sauvegardées : boutons côte à côte sur mobile */
+.pc-saved-game .pc-saved-actions{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:10px!important;width:100%!important;flex-wrap:nowrap!important}
+.pc-saved-game .pc-saved-actions button{width:100%!important;min-width:0!important;max-width:none!important;margin:0!important;padding:12px 6px!important;min-height:54px!important;font-size:clamp(12px,3.3vw,17px)!important;white-space:nowrap!important}
 </style></head><body><div class="shell"><div class="top"><div class="brand"><div class="camera">📸</div><div class="logo">PHOTO CHALLENGE</div><div class="logo-sub">TV SHOW</div></div></div><div id="notice">Chargement…</div><div id="root"></div></div><script type="module">
 import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/+esm';
 const URL='https://sykfpdmhuxbwxohzyiee.supabase.co';
