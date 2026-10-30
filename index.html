@@ -391,6 +391,11 @@ button.pc-grand-ecran-btn{box-sizing:border-box!important;display:flex!important
 /* Grand écran : libellé toujours sur une seule ligne, sans débordement */
 button.pc-grand-ecran-btn{white-space:nowrap!important;flex-wrap:nowrap!important;overflow-wrap:normal!important;word-break:normal!important;letter-spacing:-.035em!important;font-size:clamp(9px,2.65vw,21px)!important;padding-left:4px!important;padding-right:4px!important;overflow:hidden!important}
 @media(max-width:420px){button.pc-grand-ecran-btn{font-size:clamp(9px,2.55vw,12px)!important;letter-spacing:-.045em!important}}
+
+/* Écran de votes : uniquement les deux actions finales */
+body.pc-awards-mode .pc-display-final-actions{display:block!important}
+body.pc-awards-mode .pc-display-final-actions .pc-display-phase-row{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+body.pc-awards-mode .pc-display-final-actions button{width:100%!important;min-width:0!important;min-height:52px!important;white-space:nowrap!important;font-size:clamp(12px,3vw,22px)!important}
 </style></head><body><div class="shell"><div class="top"><div class="brand"><div class="camera">📸</div><div class="logo">PHOTO CHALLENGE</div><div class="logo-sub">TV SHOW</div></div></div><div id="notice">Chargement…</div><div id="root"></div></div><script type="module">
 import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/+esm';
 const URL='https://sykfpdmhuxbwxohzyiee.supabase.co';
@@ -440,7 +445,7 @@ function pcDisplayScreen(){
  if(signature===pcDisplaySignature&&document.querySelector('.pc-awards-screen'))return;
  pcDisplaySignature=signature;
  document.body.classList.add('pc-awards-mode');
- $('root').innerHTML=`<section class="pc-awards-screen"><header class="pc-awards-header"><div class="pc-live">📺 GRAND ÉCRAN – VOTES EN DIRECT</div><button type="button" class="blue" data-act="awards-display-back" style="width:auto;margin:10px auto;display:block">← Retour à la régie</button></header>${pcAwardsControls()}${game.phase!=='awards'?'<div class="pc-awards-empty">En attente de la manche PHOTO AWARDS…</div>':accepted.length?`<div class="pc-awards-grid">${pcAwardsGallery(accepted)}</div>`:'<div class="pc-awards-empty">En attente des réalisations acceptées…</div>'}<nav class="pc-display-phases" aria-label="Phases du jeu"><div class="pc-display-phase-row"><button type="button" class="green" data-phase="configuration">CONFIGURATION</button><button type="button" class="green" data-phase="rush">PHOTO RUSH</button></div><div class="pc-display-phase-row"><button type="button" class="orange" data-phase="awards">PHOTO AWARDS</button><button type="button" data-phase="finished">TERMINER</button></div><button type="button" class="purple pc-display-ceremony" data-act="ceremony-open">🏆 CÉRÉMONIE</button></nav><p class="pc-awards-footer">${esc(game.name)} · Notes moyennes sur 5 · Total moyen sur 15 · Classement masqué</p></section>`;
+ $('root').innerHTML=`<section class="pc-awards-screen"><header class="pc-awards-header"><div class="pc-live">📺 GRAND ÉCRAN – VOTES EN DIRECT</div><button type="button" class="blue" data-act="awards-display-back" style="width:auto;margin:10px auto;display:block">← Retour à la régie</button></header>${pcAwardsControls()}${game.phase!=='awards'?'<div class="pc-awards-empty">En attente de la manche PHOTO AWARDS…</div>':accepted.length?`<div class="pc-awards-grid">${pcAwardsGallery(accepted)}</div>`:'<div class="pc-awards-empty">En attente des réalisations acceptées…</div>'}<nav class="pc-display-phases pc-display-final-actions" aria-label="Actions de fin de jeu"><div class="pc-display-phase-row"><button type="button" data-phase="finished">TERMINER</button><button type="button" class="purple pc-display-ceremony" data-act="ceremony-open">🏆 CÉRÉMONIE</button></div></nav><p class="pc-awards-footer">${esc(game.name)} · Notes moyennes sur 5 · Total moyen sur 15 · Classement masqué</p></section>`;
  pcHydrateMedia();
 }
 function pcOpenDisplay(){
