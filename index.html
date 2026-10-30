@@ -367,6 +367,12 @@ body.pc-awards-mode .pc-display-phase-row{display:grid;grid-template-columns:rep
 body.pc-awards-mode .pc-display-phases button{box-sizing:border-box;width:100%!important;min-width:0!important;margin:0!important;padding:12px 5px!important;min-height:68px!important;font-size:clamp(12px,2.4vw,23px)!important;font-weight:900!important;white-space:normal!important;border-radius:18px!important}
 body.pc-awards-mode .pc-display-ceremony{min-height:62px!important}
 @media(max-width:480px){body.pc-awards-mode .pc-display-phases button{min-height:54px!important}body.pc-awards-mode .pc-gallery-stats>div{padding:8px 2px}}
+
+/* Régie distincte de l'affichage public : entrée prioritaire */
+.pc-organizer-display-entry{margin:16px 0 22px;padding:14px;border:2px solid #418bff;border-radius:20px;background:linear-gradient(125deg,#0d245b,#171045);box-shadow:0 0 20px #227aff33;text-align:center}
+.pc-organizer-display-entry .pc-open-public-display{box-sizing:border-box;display:block;width:100%!important;max-width:none!important;margin:0!important;min-height:68px!important;padding:12px!important;font-size:clamp(15px,3.6vw,24px)!important;font-weight:900!important;white-space:normal!important}
+.pc-organizer-display-entry p{margin:10px 0 0;font-size:clamp(12px,2.7vw,16px);color:#cbd9ff}
+body.pc-awards-mode #root>.pc-awards-screen{display:block!important}
 </style></head><body><div class="shell"><div class="top"><div class="brand"><div class="camera">📸</div><div class="logo">PHOTO CHALLENGE</div><div class="logo-sub">TV SHOW</div></div></div><div id="notice">Chargement…</div><div id="root"></div></div><script type="module">
 import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/+esm';
 const URL='https://sykfpdmhuxbwxohzyiee.supabase.co';
@@ -548,8 +554,9 @@ function gameUI(){
  const gallery=submissions.filter(s=>s.status==='accepted');
  const eligible=owner?submissions:submissions.filter(s=>s.team_id===myTeam?.team_id||s.status==='accepted'&&s.challenge_id===game.active_awards_challenge);
  return `<section class="panel"><button class="blue" data-act="back">← Accueil</button><h2>${esc(game.name)}</h2><p>Code à partager : <strong>${esc(game.code)}</strong> · Phase : <span class="pill">${esc(game.phase)}</span></p><p>${owner?'Organisateur':`Joueur · ${esc(team?.name||'Équipe non choisie')}`}</p>
+ ${owner?`<div class="pc-organizer-display-entry"><button type="button" class="blue pc-open-public-display" data-act="awards-display">📺 OUVRIR LE GRAND ÉCRAN — VOTES EN DIRECT</button><p>Affichage public indépendant de la configuration et des formulaires.</p></div>`:''}
  ${owner?`<div class="phase-buttons"><div class="phase-line"><button class="green" data-phase="configuration">Configuration</button><button class="green" data-phase="rush">PHOTO RUSH</button></div><div class="phase-line"><button class="orange" data-phase="awards">PHOTO AWARDS</button><button data-phase="finished">Terminer</button></div></div><div class="row" style="margin-top:12px"><button class="purple" data-act="ceremony-open">🏆 Cérémonie</button></div><form id="newteam"><label>Ajouter une équipe</label><input name="name" required maxlength="80"><button class="blue">Ajouter</button></form><form id="newchallenge"><label>Nouveau défi</label><input name="title" required maxlength="140"><label>Consigne</label><textarea name="description"></textarea><label>Points</label><select name="points"><option>100</option><option>200</option><option>300</option></select><button class="btn blue">Ajouter le défi</button></form>`:''}
- ${owner?'<div class="row"><button class="blue" data-act="awards-display">📺 Grand écran — Votes en direct</button></div>':''}${owner&&game.phase==='awards'?pcAwardsControls():''}<h3>Équipes (${teams.length})</h3>${teams.map(t=>`<div class="item">${esc(t.name)}</div>`).join('')||'<p>Aucune équipe.</p>'}
+ <h3>Équipes (${teams.length})</h3>${teams.map(t=>`<div class="item">${esc(t.name)}</div>`).join('')||'<p>Aucune équipe.</p>'}
  <h3>Défis (${challenges.length})</h3>${owner?'<button class="blue" data-act="import-40">📚 Ajouter les 40 défis (sans doublons)</button>':''}
  <div class="pc-challenge-filters" role="group" aria-label="Filtrer les défis">
  <button type="button" class="pc-filter active" data-pc-filter="all">▦ الكل</button>
