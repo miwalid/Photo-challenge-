@@ -457,20 +457,9 @@ function pcOpenDisplay(){
  pcDisplayId=game.id;
  pcDisplaySignature='';
  document.body.classList.add('pc-awards-mode');
- try{
-  // Afficher immédiatement la vue publique, puis remplir les données au prochain rendu.
-  $('root').innerHTML='<section class="pc-awards-screen"><header class="pc-awards-header"><div class="pc-live">📺 GRAND ÉCRAN – VOTES EN DIRECT</div><button type="button" class="blue" data-act="awards-display-back" style="width:auto;margin:10px auto;display:block">← Retour à la régie</button></header><div class="pc-awards-empty">Ouverture des votes en direct…</div></section>';
-  window.scrollTo(0,0);
-  // L'historique est mis à jour après le premier affichage, sans bloquer le clic.
-  requestAnimationFrame(()=>{
-    if(pcDisplayId!==game?.id)return;
-    try{const url=new URL(location.href);url.searchParams.set('awards-screen',game.id);history.pushState({pcAwardsDisplay:true},'',url.href)}catch(e){console.warn('Historique indisponible',e)}
-  });
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{
-    if(pcDisplayId!==game?.id)return;
-    try{pcDisplayScreen()}catch(e){console.error('Affichage des votes:',e);say('Erreur d’affichage : '+e.message)}
-  }));
-}
+ const url=new URL(location.href);url.searchParams.set('awards-screen',game.id);
+ try{history.pushState({pcAwardsDisplay:true},'',url.href)}catch(e){console.warn('Historique indisponible',e)}
+ try{pcDisplayScreen();window.scrollTo({top:0,behavior:'instant'})}
  catch(e){pcDisplayId=null;document.body.classList.remove('pc-awards-mode');console.error('Écran votes:',e);say('Impossible d’ouvrir le grand écran : '+e.message)}
 }
 
@@ -705,13 +694,6 @@ function pcAskButtonConfirmation(button){
  });
  cancel.focus();
 }
-// Priorité au bouton Grand écran : ouverture directe avant les traitements asynchrones de la régie.
-document.addEventListener('click',function pcGrandEcranImmediate(e){
- const button=e.target.closest?.('button[data-act="awards-display"]');
- if(!button||button.disabled)return;
- e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
- pcOpenDisplay();
-},true);
 document.addEventListener('click',function pcConfirmCapture(e){
  const button=e.target.closest?.('button');
  if(!button||button.closest('#pc-confirm-layer'))return;
