@@ -315,6 +315,11 @@ button::placeholder,input::placeholder,textarea::placeholder{font-family:var(--a
 /* Actions des parties sauvegardées : boutons côte à côte sur mobile */
 .pc-saved-game .pc-saved-actions{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:10px!important;width:100%!important;flex-wrap:nowrap!important}
 .pc-saved-game .pc-saved-actions button{width:100%!important;min-width:0!important;max-width:none!important;margin:0!important;padding:12px 6px!important;min-height:54px!important;font-size:clamp(12px,3.3vw,17px)!important;white-space:nowrap!important}
+
+/* Connexion : deux actions alignées et adaptées aux écrans mobiles */
+#auth .pc-auth-actions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:100%;margin-top:12px}
+#auth .pc-auth-actions button{box-sizing:border-box;width:100%!important;min-width:0!important;margin:0!important;padding:12px 5px!important;min-height:58px;font-size:clamp(12px,3.5vw,18px)!important;line-height:1.2;white-space:normal;overflow-wrap:normal;text-align:center}
+@media(max-width:360px){#auth .pc-auth-actions{gap:6px}#auth .pc-auth-actions button{font-size:12px!important;padding:10px 3px!important}}
 </style></head><body><div class="shell"><div class="top"><div class="brand"><div class="camera">📸</div><div class="logo">PHOTO CHALLENGE</div><div class="logo-sub">TV SHOW</div></div></div><div id="notice">Chargement…</div><div id="root"></div></div><script type="module">
 import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/+esm';
 const URL='https://sykfpdmhuxbwxohzyiee.supabase.co';
@@ -439,7 +444,7 @@ document.addEventListener('visibilitychange',()=>{
  }
 });
 window.addEventListener('online',()=>{if(game&&session){watch();requestRefresh()}});
-function home(){return `<section class="panel narrow"><h2>Bienvenue sur PHOTO CHALLENGE</h2><p>Organisateur : connectez-vous avec votre e-mail. Joueur : entrez en invité.</p><form id="auth"><label>E-mail</label><input name="email" type="email" required><label>Mot de passe</label><input name="password" type="password" minlength="6" required><button class="blue">Se connecter</button><button type="button" data-act="signup">Créer un compte</button></form><button class="btn green" data-act="guest">📱 Rejoindre comme invité</button><p><small>Les joueurs invités nécessitent l’option Anonymous Sign-Ins activée dans Supabase Auth. Ne communiquez jamais votre mot de passe organisateur.</small></p></section>`}
+function home(){return `<section class="panel narrow"><h2>Bienvenue sur PHOTO CHALLENGE</h2><p>Organisateur : connectez-vous avec votre e-mail. Joueur : entrez en invité.</p><form id="auth"><label>E-mail</label><input name="email" type="email" required><label>Mot de passe</label><input name="password" type="password" minlength="6" required><div class="pc-auth-actions"><button class="blue">Se connecter</button><button type="button" data-act="signup">Créer un compte</button></div></form><button class="btn green" data-act="guest">📱 Rejoindre comme invité</button><p><small>Les joueurs invités nécessitent l’option Anonymous Sign-Ins activée dans Supabase Auth. Ne communiquez jamais votre mot de passe organisateur.</small></p></section>`}
 function lobby(){return `<section class="panel"><h2>Espace PHOTO CHALLENGE</h2><p>Connecté : ${esc(session.user.email||'Invité')} · Auth Supabase</p><button data-act="logout">Déconnexion</button><div class="row"><div><h3>Organiser</h3><form id="newgame"><label>Nom de la partie</label><input name="name" required maxlength="80"><button class="btn pink">📸 Créer une partie</button></form></div><div><h3>Rejoindre</h3><form id="findgame"><label>Code de la partie</label><input name="code" required maxlength="8" style="text-transform:uppercase"><button class="btn blue">🔎 Voir les équipes</button></form><div id="joinTeams"></div></div></div><details class="pc-collapsible-games"><summary>Mes parties organisées</summary><div id="mygames">Chargement…</div></details></section>`}
 function mediaCard(s,owner,isMember){
  const t=teams.find(x=>x.id===s.team_id),c=challenges.find(x=>x.id===s.challenge_id);
