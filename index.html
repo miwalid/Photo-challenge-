@@ -459,7 +459,15 @@ function pcOpenDisplay(){
  document.body.classList.add('pc-awards-mode');
  const url=new URL(location.href);url.searchParams.set('awards-screen',game.id);
  try{history.pushState({pcAwardsDisplay:true},'',url.href)}catch(e){console.warn('Historique indisponible',e)}
- try{pcDisplayScreen();window.scrollTo({top:0,behavior:'instant'})}
+ try{
+  // Afficher immédiatement la vue publique, puis remplir les données au prochain rendu.
+  $('root').innerHTML='<section class="pc-awards-screen"><header class="pc-awards-header"><div class="pc-live">📺 GRAND ÉCRAN – VOTES EN DIRECT</div><button type="button" class="blue" data-act="awards-display-back" style="width:auto;margin:10px auto;display:block">← Retour à la régie</button></header><div class="pc-awards-empty">Ouverture des votes en direct…</div></section>';
+  window.scrollTo(0,0);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    if(pcDisplayId!==game?.id)return;
+    try{pcDisplayScreen()}catch(e){console.error('Affichage des votes:',e);say('Erreur d’affichage : '+e.message)}
+  }));
+}
  catch(e){pcDisplayId=null;document.body.classList.remove('pc-awards-mode');console.error('Écran votes:',e);say('Impossible d’ouvrir le grand écran : '+e.message)}
 }
 
