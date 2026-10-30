@@ -343,6 +343,30 @@ button::placeholder,input::placeholder,textarea::placeholder{font-family:var(--a
 .pc-gallery-count{text-align:center;margin:12px;font-weight:800;color:#f9b5ee}
 .pc-gallery-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.pc-gallery-stats>div{border:1px solid #438cff;border-radius:14px;padding:12px 5px;text-align:center;background:#071435}.pc-gallery-stats b{font-size:clamp(18px,3vw,30px);margin-left:5px}.pc-gallery-stats small{display:block;font-size:clamp(10px,1.7vw,15px);margin-top:4px}
 @media(max-width:600px){.pc-live-gallery{padding:9px}.pc-gallery-stage{grid-template-columns:32px minmax(0,1fr) 32px;gap:4px}.pc-gallery-arrow{width:32px!important;height:46px!important;font-size:18px!important}.pc-gallery-stats{gap:5px}.pc-gallery-stats>div{padding:8px 2px}}
+
+/* Grand écran PHOTO AWARDS : composition de référence, isolée du reste du jeu */
+body.pc-awards-mode .pc-awards-screen{box-sizing:border-box;max-width:1050px;min-height:0;margin:0 auto;padding:clamp(12px,2vw,24px);background:linear-gradient(135deg,#07143a,#101139 65%,#170d40);border:2px solid #3479ff;border-radius:24px}
+body.pc-awards-mode .pc-awards-header{display:flex;flex-direction:column;align-items:stretch;gap:10px;margin-bottom:10px}
+body.pc-awards-mode .pc-awards-header .pc-live{width:100%;box-sizing:border-box;padding:clamp(13px,2.4vw,25px);border:2px solid #8cd8ff;border-radius:22px;background:linear-gradient(#29aaff,#126ff0 60%,#063cae);box-shadow:0 0 22px #208aff88;text-align:center;font-size:clamp(19px,3.5vw,35px);font-weight:900;color:white}
+body.pc-awards-mode .pc-awards-nav{margin:12px 0 0;padding:8px 12px;border:0;background:transparent;box-shadow:none;text-align:center}
+body.pc-awards-mode .pc-awards-nav b{font-size:clamp(20px,3.5vw,34px)}
+body.pc-awards-mode .pc-awards-grid{display:block;max-width:100%}
+body.pc-awards-mode .pc-live-gallery{margin:8px auto 12px;padding:clamp(8px,1.5vw,16px);max-width:100%;border:2px solid #bb52f5;border-radius:22px;background:linear-gradient(125deg,#1b144d,#0b1b46)}
+body.pc-awards-mode .pc-live-gallery>h3{width:fit-content;max-width:90%;margin:0 auto 12px;padding:9px 18px;background:#362077;border:1px solid #8f49d8;border-radius:12px;text-align:center;font-size:clamp(14px,2.2vw,23px)}
+body.pc-awards-mode .pc-gallery-stage{grid-template-columns:clamp(32px,5vw,52px) minmax(0,1fr) clamp(32px,5vw,52px);gap:8px}
+body.pc-awards-mode .pc-gallery-media .pc-awards-card{margin:0 auto;max-width:720px;padding:7px}
+body.pc-awards-mode .pc-gallery-media .pc-awards-card .pc-media{aspect-ratio:16/9;max-height:44vh}
+body.pc-awards-mode .pc-gallery-media .pc-awards-card .pc-score{display:none}
+body.pc-awards-mode .pc-gallery-arrow{width:100%!important;min-width:0!important;height:52px!important;margin:0!important;padding:0!important;border-radius:50%!important}
+body.pc-awards-mode .pc-gallery-count{margin:8px 0}
+body.pc-awards-mode .pc-gallery-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+body.pc-awards-mode .pc-gallery-stats>div{border:1px solid #438cff;border-radius:12px;padding:10px 3px;background:#071435;text-align:center}
+body.pc-awards-mode .pc-gallery-stats small{display:block;font-size:clamp(9px,1.4vw,14px)}
+body.pc-awards-mode .pc-display-phases{display:grid;gap:10px;margin:12px auto;max-width:100%}
+body.pc-awards-mode .pc-display-phase-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+body.pc-awards-mode .pc-display-phases button{box-sizing:border-box;width:100%!important;min-width:0!important;margin:0!important;padding:12px 5px!important;min-height:68px!important;font-size:clamp(12px,2.4vw,23px)!important;font-weight:900!important;white-space:normal!important;border-radius:18px!important}
+body.pc-awards-mode .pc-display-ceremony{min-height:62px!important}
+@media(max-width:480px){body.pc-awards-mode .pc-display-phases button{min-height:54px!important}body.pc-awards-mode .pc-gallery-stats>div{padding:8px 2px}}
 </style></head><body><div class="shell"><div class="top"><div class="brand"><div class="camera">📸</div><div class="logo">PHOTO CHALLENGE</div><div class="logo-sub">TV SHOW</div></div></div><div id="notice">Chargement…</div><div id="root"></div></div><script type="module">
 import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/+esm';
 const URL='https://sykfpdmhuxbwxohzyiee.supabase.co';
@@ -392,7 +416,7 @@ function pcDisplayScreen(){
  if(signature===pcDisplaySignature&&document.querySelector('.pc-awards-screen'))return;
  pcDisplaySignature=signature;
  document.body.classList.add('pc-awards-mode');
- $('root').innerHTML=`<section class="pc-awards-screen"><header class="pc-awards-header"><h2>📸 PHOTO CHALLENGE</h2><div class="pc-live">🔴 PHOTO AWARDS · VOTES EN DIRECT</div><button type="button" class="blue" data-act="awards-display-back" style="width:auto;margin:10px auto;display:block">← Retour à la régie</button></header>${pcAwardsControls()}${game.phase!=='awards'?'<div class="pc-awards-empty">En attente de la manche PHOTO AWARDS…</div>':accepted.length?`<div class="pc-awards-grid">${pcAwardsGallery(accepted)}</div>`:'<div class="pc-awards-empty">En attente des réalisations acceptées…</div>'}<p class="pc-awards-footer">${esc(game.name)} · Notes moyennes sur 5 · Total moyen sur 15 · Classement masqué</p></section>`;
+ $('root').innerHTML=`<section class="pc-awards-screen"><header class="pc-awards-header"><div class="pc-live">📺 GRAND ÉCRAN – VOTES EN DIRECT</div><button type="button" class="blue" data-act="awards-display-back" style="width:auto;margin:10px auto;display:block">← Retour à la régie</button></header>${pcAwardsControls()}${game.phase!=='awards'?'<div class="pc-awards-empty">En attente de la manche PHOTO AWARDS…</div>':accepted.length?`<div class="pc-awards-grid">${pcAwardsGallery(accepted)}</div>`:'<div class="pc-awards-empty">En attente des réalisations acceptées…</div>'}<nav class="pc-display-phases" aria-label="Phases du jeu"><div class="pc-display-phase-row"><button type="button" class="green" data-phase="configuration">CONFIGURATION</button><button type="button" class="green" data-phase="rush">PHOTO RUSH</button></div><div class="pc-display-phase-row"><button type="button" class="orange" data-phase="awards">PHOTO AWARDS</button><button type="button" data-phase="finished">TERMINER</button></div><button type="button" class="purple pc-display-ceremony" data-act="ceremony-open">🏆 CÉRÉMONIE</button></nav><p class="pc-awards-footer">${esc(game.name)} · Notes moyennes sur 5 · Total moyen sur 15 · Classement masqué</p></section>`;
  pcHydrateMedia();
 }
 function pcOpenDisplay(){
